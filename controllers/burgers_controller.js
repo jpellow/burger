@@ -1,32 +1,33 @@
 var express = require("express");
-var burger =  require("./models/burger.js")
+var burger =  require("../models/burger.js")
+var router = express.Router();
 
 // Create all our routes and set up logic within those routes where required.
 router.get("/", function(req, res) {
-    cat.all(function(data) {
+    burger.selectAll(function(data) {
       var hbsObject = {
-        cats: data
+        burgers: data
       };
       console.log(hbsObject);
       res.render("index", hbsObject);
     });
   });
   
-  router.post("/api/cats", function(req, res) {
-    cat.create(["name", "sleepy"], [req.body.name, req.body.sleepy], function(result) {
+  router.post("/api/burgers", function(req, res) {
+    burger.create(["burger_name"], [req.body.name], function(result) {
       // Send back the ID of the new quote
       res.json({ id: result.insertId });
     });
   });
   
-  router.put("/api/cats/:id", function(req, res) {
+  router.put("/api/burgers/:id", function(req, res) {
     var condition = "id = " + req.params.id;
   
     console.log("condition", condition);
   
-    cat.update(
+    burger.update(
       {
-        sleepy: req.body.sleepy
+        devoured: req.body.devoured
       },
       condition,
       function(result) {
